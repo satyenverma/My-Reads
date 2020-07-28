@@ -1,6 +1,7 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import { Route, Switch, Link } from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
@@ -18,6 +19,17 @@ class BooksApp extends React.Component {
     //Invoke BooksAPI's getAll() method to get all the books
     BooksAPI.getAll().then(books => this.setState({ books }));
   }
+
+  changeShelf = (changedBook, shelf) => {
+    BooksAPI.update(changedBook, shelf).then(response => {
+      changedBook.shelf = shelf;
+      this.setState(prevState => ({
+        books: prevState.books
+          .filter(book => book.id !== changedBook.id)
+          .concat(changedBook)
+      }));
+    });
+  };
 
   render() {
     const { books } = this.state;
