@@ -6,7 +6,10 @@ import noCover from '../images/no-cover-image.png';
 const Book = props => {
   const { book, books, changeShelf } = props;
 
-  const coverImg = book.imageLinks.thumbnail;
+  const coverImg =
+    book.imageLinks && book.imageLinks.thumbnail
+        ? book.imageLinks.thumbnail
+        : noCover;
   const title = book.title ? book.title : 'No title available';
 
   return (
